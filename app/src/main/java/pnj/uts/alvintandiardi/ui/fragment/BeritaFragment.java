@@ -56,9 +56,7 @@ public class BeritaFragment extends Fragment {
             @Override
             public void onItemClicked(Berita data) {
                 Intent intent = new Intent(getActivity(), DetailBeritaActivity.class);
-                intent.putExtra("image", data.getImage());
-                intent.putExtra("judul", data.getTitle());
-                intent.putExtra("desc", data.getDesc());
+                intent.putExtra("berita", data);
                 startActivity(intent);
             }
         });

@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 
 import pnj.uts.alvintandiardi.R;
+import pnj.uts.alvintandiardi.data.entity.Berita;
 
 public class DetailBeritaActivity extends AppCompatActivity {
 
@@ -35,13 +36,14 @@ public class DetailBeritaActivity extends AppCompatActivity {
 
         if (extras != null) {
 
+            Berita data = extras.getParcelable("berita");
+
             Glide.with(this)
-                    .load(extras.getString("image"))
+                    .load(data.getImage())
                     .into(mImgBerita);
 
-            mTvJudul.setText(extras.getString("judul"));
-            mTvIsi.setText(extras.getString("desc"));
-
+            mTvJudul.setText(data.getTitle());
+            mTvIsi.setText(data.getDesc());
         }
     }
 
