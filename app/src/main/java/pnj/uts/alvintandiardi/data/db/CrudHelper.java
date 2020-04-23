@@ -45,11 +45,24 @@ public class CrudHelper {
     }
 
     public Cursor getAllData() {
-        return database.rawQuery("SELECT * FROM " + TABLE + " ORDER BY " + NAMA, null);
+        return database.query(TABLE,
+                null,
+                null,
+                null,
+                null,
+                null,
+                NAMA + " ASC");
     }
 
     public Cursor getDetailData(String nim) {
-        return database.rawQuery("SELECT * FROM " + TABLE + " WHERE nim=" + nim, null);
+        return database.query(TABLE,
+                null,
+                NIM + " = ?",
+                new String[]{nim},
+                null,
+                null,
+                null,
+                null);
     }
 
     public long insertData(ContentValues values) {
