@@ -42,6 +42,17 @@ public class DataAlumniActivity extends AppCompatActivity {
 
         mRvAlumni.setLayoutManager(new LinearLayoutManager(this));
         mRvAlumni.setHasFixedSize(true);
+        adapter = new RecyclerAlumniAdapter(listAlumni, DataAlumniActivity.this);
+        mRvAlumni.setAdapter(adapter);
+
+        adapter.setOnItemClickCallback(new RecyclerAlumniAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Alumni data) {
+                Intent intent = new Intent(DataAlumniActivity.this, DetailDataAlumniActivity.class);
+                intent.putExtra(NIM, data.getNim());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -68,16 +79,7 @@ public class DataAlumniActivity extends AppCompatActivity {
         cursor.close();
         helper.close();
 
-        adapter = new RecyclerAlumniAdapter(listAlumni, DataAlumniActivity.this, new RecyclerAlumniAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(DataAlumniActivity.this, DetailDataAlumniActivity.class);
-                intent.putExtra(NIM, listAlumni.get(position).getNim());
-                startActivity(intent);
-            }
-        });
-
-        mRvAlumni.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

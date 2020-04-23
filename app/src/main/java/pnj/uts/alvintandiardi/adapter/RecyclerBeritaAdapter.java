@@ -21,12 +21,15 @@ public class RecyclerBeritaAdapter extends RecyclerView.Adapter<RecyclerBeritaAd
 
     private List<Berita> listBerita;
     private Context context;
-    private ItemClickListener itemClickListener;
+    private OnItemClickCallback onItemClickCallback;
 
-    public RecyclerBeritaAdapter(List<Berita> listBerita, Context context, ItemClickListener itemClickListener) {
+    public RecyclerBeritaAdapter(List<Berita> listBerita, Context context) {
         this.listBerita = listBerita;
         this.context = context;
-        this.itemClickListener = itemClickListener;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -37,7 +40,7 @@ public class RecyclerBeritaAdapter extends RecyclerView.Adapter<RecyclerBeritaAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Berita model = listBerita.get(position);
 
@@ -51,7 +54,7 @@ public class RecyclerBeritaAdapter extends RecyclerView.Adapter<RecyclerBeritaAd
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(v, position);
+                onItemClickCallback.onItemClicked(listBerita.get(holder.getAdapterPosition()));
             }
         });
 
@@ -80,8 +83,8 @@ public class RecyclerBeritaAdapter extends RecyclerView.Adapter<RecyclerBeritaAd
         }
     }
 
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
+    public interface OnItemClickCallback {
+        void onItemClicked(Berita data);
     }
 
 }

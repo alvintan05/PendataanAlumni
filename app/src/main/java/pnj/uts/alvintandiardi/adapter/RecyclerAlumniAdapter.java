@@ -13,18 +13,20 @@ import java.util.List;
 
 import pnj.uts.alvintandiardi.R;
 import pnj.uts.alvintandiardi.data.entity.Alumni;
-import pnj.uts.alvintandiardi.data.entity.Berita;
 
 public class RecyclerAlumniAdapter extends RecyclerView.Adapter<RecyclerAlumniAdapter.ViewHolder> {
 
     private List<Alumni> listAlumni;
     private Context context;
-    private ItemClickListener itemClickListener;
+    private OnItemClickCallback onItemClickCallback;
 
-    public RecyclerAlumniAdapter(List<Alumni> listAlumni, Context context, ItemClickListener itemClickListener) {
+    public RecyclerAlumniAdapter(List<Alumni> listAlumni, Context context) {
         this.listAlumni = listAlumni;
         this.context = context;
-        this.itemClickListener = itemClickListener;
+    }
+
+    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -35,7 +37,7 @@ public class RecyclerAlumniAdapter extends RecyclerView.Adapter<RecyclerAlumniAd
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         Alumni model = listAlumni.get(position);
 
@@ -45,7 +47,7 @@ public class RecyclerAlumniAdapter extends RecyclerView.Adapter<RecyclerAlumniAd
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListener.onItemClick(v, position);
+                onItemClickCallback.onItemClicked(listAlumni.get(holder.getAdapterPosition()));
             }
         });
 
@@ -72,8 +74,8 @@ public class RecyclerAlumniAdapter extends RecyclerView.Adapter<RecyclerAlumniAd
         }
     }
 
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
+    public interface OnItemClickCallback {
+        void onItemClicked(Alumni data);
     }
 
 }

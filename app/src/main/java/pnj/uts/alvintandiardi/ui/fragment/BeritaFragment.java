@@ -47,21 +47,21 @@ public class BeritaFragment extends Fragment {
 
         mRvBerita.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRvBerita.setHasFixedSize(true);
-        getList();
+        adapter = new RecyclerBeritaAdapter(listBerita, getActivity());
 
-        adapter = new RecyclerBeritaAdapter(listBerita, getActivity(), new RecyclerBeritaAdapter.ItemClickListener() {
+        getList();
+        mRvBerita.setAdapter(adapter);
+
+        adapter.setOnItemClickCallback(new RecyclerBeritaAdapter.OnItemClickCallback() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClicked(Berita data) {
                 Intent intent = new Intent(getActivity(), DetailBeritaActivity.class);
-                intent.putExtra("image", listBerita.get(position).getImage());
-                intent.putExtra("judul", listBerita.get(position).getTitle());
-                intent.putExtra("desc", listBerita.get(position).getDesc());
+                intent.putExtra("image", data.getImage());
+                intent.putExtra("judul", data.getTitle());
+                intent.putExtra("desc", data.getDesc());
                 startActivity(intent);
             }
         });
-
-        adapter.notifyDataSetChanged();
-        mRvBerita.setAdapter(adapter);
 
     }
 
@@ -80,6 +80,8 @@ public class BeritaFragment extends Fragment {
             listBerita.add(berita);
 
         }
+
+        adapter.notifyDataSetChanged();
 
     }
 
